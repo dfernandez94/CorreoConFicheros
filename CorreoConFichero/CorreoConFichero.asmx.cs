@@ -71,7 +71,7 @@ namespace CorreoConFichero
             List<string> lstArchivos = new List<string>();
             lstArchivos.Add(@"C:\Albaranes\WriteLines.txt");
             
-            Mail oMail = new Mail("pruebaa <davidtigrex@gmail.com>", "dfernandez@afirmatica.com","asunto", "mensaje", lstArchivos);
+            Mail oMail = new Mail("pruebaa <davidtigrex@gmail.com>", "dfprueba12@gmail.com","asunto", "mensaje", "", lstArchivos);
             
             if (oMail.enviar())
             {

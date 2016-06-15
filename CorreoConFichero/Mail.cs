@@ -14,6 +14,7 @@ namespace CorreoConFichero
         /*Email*/
         public String de { set; get; }
         public String para { set; get; }
+        public String bcc { set; get; }
         public String mensaje { set; get; }
         public String asunto { set; get; }
         public List<string> archivos { set; get; }
@@ -29,13 +30,14 @@ namespace CorreoConFichero
 
         public string error { set; get; }
 
-        public Mail(string de, string para, string asunto, string mensaje, List<string> archivos = null)
+        public Mail(string de, string para, string asunto, string mensaje, string bcc="", List<string> archivos = null)
         {
             this.de = de;
             this.para = para;
             this.mensaje = mensaje;
             this.asunto = asunto;
             this.archivos = archivos;
+            this.bcc = bcc;
 
             usuario = ConfigurationManager.AppSettings["correo.usuario"];
             contra = ConfigurationManager.AppSettings["correo.contra"];
@@ -56,6 +58,7 @@ namespace CorreoConFichero
             try
             {
                 email = new System.Net.Mail.MailMessage(de, para, asunto, mensaje);
+                
 
                 if (archivos != null)
                 {
@@ -69,7 +72,17 @@ namespace CorreoConFichero
                 }
 
                 email.IsBodyHtml = true;
-                email.From = new MailAddress(de); 
+                email.From = new MailAddress(de);
+
+                if (!bcc.Equals(""))
+                {
+                    string[] emails = bcc.Split(',');
+                    foreach (string e in emails)
+                    {
+                        email.Bcc.Add(e);
+                    }
+                }
+                
 
                 System.Net.Mail.SmtpClient smtpMail = new System.Net.Mail.SmtpClient(smtp);
 
